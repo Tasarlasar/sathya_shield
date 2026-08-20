@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Band colours. Never the sole carrier of meaning: every state also has a
+      distinct icon, word and sound, because colour alone fails colourblind
+      users and anyone who does not read red as danger (PRD 8.1).
+    -->
+    <color name="band_red">#FFB3261E</color>
+    <color name="band_red_dark">#FF7F1D17</color>
+    <color name="band_amber">#FFB26B00</color>
+    <color name="band_green">#FF1B6B3A</color>
+
+    <color name="brand_navy">#FF10233F</color>
+    <color name="on_band">#FFFFFFFF</color>
+    <color name="on_band_muted">#CCFFFFFF</color>
+    <color name="surface">#FFF7F7F9</color>
+    <color name="on_surface">#FF1A1C1E</color>
+    <color name="outline">#FFB0B4BA</color>
+</resources>

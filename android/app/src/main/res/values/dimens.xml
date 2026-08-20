@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Top inset for the alert icon.
+
+      A heads-up notification from the messaging app draws above our overlay and
+      we cannot prevent that, so in portrait the headline is pushed clear of the
+      band it occupies. Measured on a Pixel 7 (1080x2400 @420dpi): the heads-up
+      card reaches roughly 640px.
+    -->
+    <dimen name="alert_icon_margin_top">180dp</dimen>
+    <dimen name="alert_icon_size">72dp</dimen>
+</resources>

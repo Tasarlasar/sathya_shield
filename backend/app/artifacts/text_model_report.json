@@ -1,0 +1,24 @@
+{
+  "corpus": "UCI SMS Spam Collection",
+  "messages": 5574,
+  "roc_auc": 0.9950334279979974,
+  "pr_auc": 0.9864240968384759,
+  "indian_scam_probe": {
+    "SBI KYC expired. Verify urgently at http://sbi-rewards.xyz/login": 0.48681413272014823,
+    "This is CBI cyber cell. Arrest warrant issued. Pay penalty immediately.": 0.21592404605289378,
+    "Congratulations you won lottery of 25 lakh. Pay processing fee to claim.": 0.6872473168177212,
+    "Turant paise bhejo warna account band kar diya jayega": 0.12309486710754552,
+    "Ghar baithe kamao 5000 rupay roz, registration fee 500 bhejo": 0.44122887963093077,
+    "तुरंत पैसे भेजो वरना खाता बंद कर दिया जाएगा": 0.045423301366172605,
+    "Dear customer your electricity will be disconnected tonight, call 9876543210": 0.584831571354567,
+    "Your parcel is held at customs. Pay clearance fee to release.": 0.31191554874261407
+  },
+  "indian_ham_probe": {
+    "Beta I am reaching home by 7 pm, is dinner ready": 0.01325366384093312,
+    "Meeting moved to 3pm tomorrow": 0.035122978676509355,
+    "Happy birthday, have a great year ahead": 0.021384190800620265,
+    "Kal milte hain office ke baad": 0.037791710288746165,
+    "कल मिलते हैं शाम को": 0.045423301366172605,
+    "HDFC Bank: Rs.2500 debited from a/c XX1234. Never share your OTP or PIN.": 0.31972661041015515
+  }
+}

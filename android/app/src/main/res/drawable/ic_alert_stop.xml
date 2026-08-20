@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Octagonal stop sign with a bar. Distinct silhouette so the state is
+         readable without relying on colour.
+         No android:tint here: a tint is applied to the whole vector and would
+         flatten both paths to one colour, erasing the bar. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M8.6,2 L15.4,2 L22,8.6 L22,15.4 L15.4,22 L8.6,22 L2,15.4 L2,8.6 Z" />
+    <path
+        android:fillColor="#FFB3261E"
+        android:pathData="M6,10.8 L18,10.8 L18,13.2 L6,13.2 Z" />
+</vector>

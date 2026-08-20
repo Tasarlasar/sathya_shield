@@ -1,0 +1,18 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+python-multipart==0.0.20
+tldextract==5.1.3
+idna==3.10
+pytest==8.3.4
+httpx==0.28.1
+
+# ML pipeline. scikit-learn only: HistGradientBoosting is competitive with
+# XGBoost on tabular data of this size and avoids a native build dependency.
+scikit-learn==1.6.1
+numpy==2.2.2
+joblib==1.4.2
+
+# Makes urllib use the OS trust store, so dataset downloads work on networks
+# that terminate TLS for inspection. Needed only by ml/fetch_data.py.
+truststore==0.10.1

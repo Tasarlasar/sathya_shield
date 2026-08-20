@@ -1,0 +1,33 @@
+{
+  "data_stats": {
+    "phishing_urls": 72880,
+    "unparsed": 0,
+    "phishing_unique_domains": 12867,
+    "excluded_shared_hosting": 257,
+    "malicious_domains": 12610,
+    "benign_domains": 19000
+  },
+  "roc_auc": 0.815050328008413,
+  "pr_auc": 0.8051329468818433,
+  "feature_importance": {
+    "tld_risky": 0.04335649590198139,
+    "tld_len": 0.024151621680271074,
+    "digit_count": 0.01712214599295574,
+    "max_consonant_run": 0.014524786752800178,
+    "digit_ratio": 0.014323427980035696,
+    "sld_len": 0.012839541288997936,
+    "domain_len": 0.010737763533476885,
+    "hyphen_count": 0.008749087752683326,
+    "sld_entropy": 0.006625335937369558,
+    "max_digit_run": 0.00597542190395115,
+    "vowel_ratio": 0.005751721835511714,
+    "longest_token_len": 0.0021411254110538236,
+    "brand_lookalike": 0.0018004306675346803,
+    "token_count": 0.0013845460463718373,
+    "lure_word_count": 0.0009432954412673001,
+    "unique_char_ratio": 0.00042364999081907496,
+    "has_lure_word": 0.0,
+    "sld_all_digits": 0.0,
+    "repeated_char_run": -9.26035354799959e-05
+  }
+}

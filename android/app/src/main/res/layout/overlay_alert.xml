@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The screen-takeover alert (F26).
+
+  Deliberately plain Android views rather than Compose: an overlay window added
+  through WindowManager has no Activity, so it has no lifecycle or saved-state
+  owner, which Compose requires. Plain views keep the most safety-critical
+  surface in the app simple.
+
+  Wrapped in a ScrollView so content is reachable at any screen size or
+  orientation. Verified on a real Pixel 7 in landscape, where a fixed layout put
+  the dismiss button beyond the bottom edge.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/alert_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/band_red"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingBottom="28dp">
+
+        <ImageView
+            android:id="@+id/alert_icon"
+            android:layout_width="@dimen/alert_icon_size"
+            android:layout_height="@dimen/alert_icon_size"
+            android:layout_marginTop="@dimen/alert_icon_margin_top"
+            android:contentDescription="@string/band_red_headline"
+            android:src="@drawable/ic_alert_stop" />
+
+        <!-- The verdict word. Large, because it may be read by someone who
+             struggles with small text. -->
+        <TextView
+            android:id="@+id/alert_headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/band_red_headline"
+            android:textColor="@color/on_band"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <!-- The instruction. The only part that changes behaviour, so it sits
+             directly under the headline and above the evidence. -->
+        <TextView
+            android:id="@+id/alert_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/band_red_action"
+            android:textColor="@color/on_band"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/alert_reasons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="start"
+            android:lineSpacingExtra="5dp"
+            android:textColor="@color/on_band_muted"
+            android:textSize="17sp" />
+
+        <!-- Ask family is the primary action, not dismiss. The failure mode this
+             addresses is a correct warning that gets ignored under pressure. -->
+        <Button
+            android:id="@+id/alert_ask_family"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/on_band"
+            android:text="@string/alert_ask_family"
+            android:textAllCaps="false"
+            android:textColor="@color/band_red_dark"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/alert_repeat"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:text="@string/alert_repeat"
+            android:textAllCaps="false"
+            android:textColor="@color/on_band"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/alert_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@android:color/transparent"
+            android:text="@string/alert_dismiss"
+            android:textAllCaps="false"
+            android:textColor="@color/on_band_muted"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Tamil strings, authored rather than machine-translated (PRD 8.4).
+  STATUS: first draft. Needs review by a native speaker before any demo.
+-->
+<resources>
+    <string name="share_target_label">SatyaShield மூலம் சரிபார்</string>
+
+    <string name="band_red_headline">இது மோசடி</string>
+    <string name="band_amber_headline">இதில் கவனமாக இருங்கள்</string>
+    <string name="band_green_headline">தவறு எதுவும் இல்லை</string>
+
+    <string name="band_red_action">பணம் அனுப்ப வேண்டாம். இணைப்பைத் திறக்க வேண்டாம். எந்த எண்ணையும் சொல்ல வேண்டாம்.</string>
+    <string name="band_amber_action">இப்போது எதுவும் செய்ய வேண்டாம். முதலில் இதை உங்கள் குடும்பத்தில் காட்டுங்கள்.</string>
+    <string name="band_green_action">இது சரியாகத் தெரிகிறது. பணம் கேட்பவர்களிடம் கவனமாக இருங்கள்.</string>
+
+    <string name="reason_apk">இந்த இணைப்பு உங்கள் தொலைபேசியில் புதிய செயலியை நிறுவும். வங்கிகள் செயலி இணைப்பு அனுப்புவதில்லை.</string>
+    <string name="reason_userinfo">இணைப்பில் வங்கிப் பெயர் தெரிகிறது, ஆனால் அது வேறு இடத்திற்குச் செல்கிறது.</string>
+    <string name="reason_ip_host">இந்த இணைப்பில் இணையதள பெயருக்குப் பதிலாக எண்கள் உள்ளன. உண்மையான வங்கிகள் இப்படிச் செய்வதில்லை.</string>
+    <string name="reason_punycode">இணையதள பெயரில் ஒத்த எழுத்துகள் உள்ளன, உண்மையான பெயரைப் போலியாகக் காட்ட.</string>
+    <string name="reason_brand">இந்த இணையதளம் %1$s போல் நடிக்கிறது, ஆனால் அது இல்லை. உண்மையானது வேறு.</string>
+    <string name="reason_shortener">இது சுருக்கிய இணைப்பு. இது உண்மையில் எங்கு செல்கிறது எனத் தெரியாது.</string>
+    <string name="reason_risky_tld">இந்த வகை இணையதள முகவரி பெரும்பாலும் ஏமாற்றுவதற்குப் பயன்படுகிறது.</string>
+    <string name="reason_credential_path">இந்தப் பக்கம் உங்கள் கடவுச்சொல் அல்லது எண்ணைக் கேட்கும்.</string>
+    <string name="reason_no_tls">இந்த இணையதளம் பாதுகாப்பானது அல்ல.</string>
+    <string name="reason_upi_unknown">தெரியாத ஒருவர் நேரடியாகப் பணம் அனுப்பச் சொல்கிறார்.</string>
+    <string name="reason_credential_request">அவர்கள் உங்கள் ஓடிபி அல்லது பின் கேட்கிறார்கள். உண்மையான வங்கி அல்லது அதிகாரி இதைக் கேட்பதில்லை.</string>
+    <string name="reason_digital_arrest">யாரோ காவல்துறை போல் நடித்துப் பணம் கேட்கிறார்கள். காவல்துறை தொலைபேசியில் பணம் கேட்பதில்லை.</string>
+    <string name="reason_advance_fee">நீங்கள் ஏதோ வென்றதாகச் சொல்லி, முதலில் பணம் கேட்கிறார்கள். இது எப்போதும் ஏமாற்று.</string>
+    <string name="reason_urgent_money">பணத்திற்காக அவர்கள் உங்களை அவசரப்படுத்துகிறார்கள். அவசரமே அவர்களின் தந்திரம்.</string>
+    <string name="reason_kyc_pressure">உங்கள் கணக்கை மூடுவதாக மிரட்டுகிறார்கள். வங்கிகள் செய்தி மூலம் இதைச் செய்வதில்லை.</string>
+    <string name="reason_job_bait">இதுபோன்ற எளிய வருமான வேலை உங்களுக்குப் பணம் தராது, உங்கள் பணத்தை எடுக்கும்.</string>
+    <string name="reason_sender_unknown">இது உங்கள் தொடர்புகளில் இல்லாத எண்ணிலிருந்து வந்தது.</string>
+    <string name="reason_media_prompt">இந்தச் செய்தியில் படம் அல்லது காணொளியும் உள்ளது. சரிபார்க்க தட்டுங்கள்.</string>
+
+    <string name="alert_ask_family">குடும்பத்தைக் கேள்</string>
+    <string name="alert_dismiss">மூடு</string>
+    <string name="alert_repeat">மீண்டும் சொல்</string>
+    <string name="alert_why">ஏன்?</string>
+
+    <string name="setup_title">பாதுகாப்பை அமைக்கவும்</string>
+    <string name="setup_subtitle">ஒரு நிமிடம் ஆகும். பாதுகாக்க வேண்டியவரின் தொலைபேசியில் ஒரு முறை செய்யுங்கள்.</string>
+    <string name="setup_step_notifications">வரும் செய்திகளைப் படிக்க SatyaShield-க்கு அனுமதி</string>
+    <string name="setup_step_notifications_why">எதையும் தட்டும் முன் எச்சரிக்க இது தேவை. செய்தி இந்த தொலைபேசியிலேயே சரிபார்க்கப்படும், வெளியே அனுப்பப்படாது.</string>
+    <string name="setup_step_overlay">முழு எச்சரிக்கையைக் காட்ட அனுமதி</string>
+    <string name="setup_step_overlay_why">ஆபத்து எச்சரிக்கை முழுத் திரையில் வர இது தேவை, சிறு அறிவிப்பாக இருந்து தவறிப் போகாமல்.</string>
+    <string name="setup_step_battery">SatyaShield-ஐ மூடாமல் தடுக்கவும்</string>
+    <string name="setup_step_battery_why">பல தொலைபேசிகள் மின்கலம் சேமிக்க செயலிகளை மூடும். இது இல்லாமல் பாதுகாப்பு அமைதியாக நின்றுவிடும்.</string>
+    <string name="setup_step_language">பேசும் மொழியைத் தேர்வு செய்யவும்</string>
+    <string name="setup_grant">அனுமதி</string>
+    <string name="setup_granted">முடிந்தது</string>
+    <string name="setup_open_settings">அமைப்புகளைத் திற</string>
+
+    <string name="selftest_title">இது வேலை செய்கிறதா எனப் பார்</string>
+    <string name="selftest_body">இந்த தொலைபேசிக்கு ஒரு போலி மோசடி செய்தியை அனுப்புவோம். பாதுகாப்பு இயங்கினால் சிவப்பு எச்சரிக்கை வரும்.</string>
+    <string name="selftest_run">சோதனை செய்தி அனுப்பு</string>
+    <string name="selftest_pass">வேலை செய்கிறது. எச்சரிக்கை வந்தது.</string>
+    <string name="selftest_fail">எச்சரிக்கை வரவில்லை. மேலே உள்ள அனுமதிகளைப் பாருங்கள்.</string>
+    <string name="selftest_waiting">எச்சரிக்கைக்குக் காத்திருக்கிறோம்…</string>
+
+    <string name="home_protected">பாதுகாப்பு இயங்குகிறது</string>
+    <string name="home_not_protected">பாதுகாப்பு நிறுத்தப்பட்டுள்ளது</string>
+    <string name="home_check_something">ஒரு செய்தியைச் சரிபார்</string>
+    <string name="home_paste_hint">செய்தி அல்லது இணைப்பை இங்கே ஒட்டவும்</string>
+    <string name="home_check_now">இப்போது சரிபார்</string>
+    <string name="home_recent">சமீபத்திய சரிபார்ப்புகள்</string>
+    <string name="home_no_recent">இன்னும் எதுவும் சரிபார்க்கப்படவில்லை</string>
+
+    <string name="status_channel_name">பாதுகாப்பு நிலை</string>
+    <string name="status_channel_desc">SatyaShield மோசடியைக் கவனித்து வருவதைக் காட்டுகிறது</string>
+    <string name="alert_channel_name">மோசடி எச்சரிக்கைகள்</string>
+    <string name="alert_channel_desc">ஆபத்தான செய்திகள் பற்றிய எச்சரிக்கைகள்</string>
+    <string name="selftest_channel_name">சோதனை செய்திகள்</string>
+    <string name="status_watching">SatyaShield கவனித்து வருகிறது</string>
+
+    <string name="offline_notice">இந்த தொலைபேசியில் மட்டும் சரிபார்க்கப்பட்டது. ஆழமான சரிபார்ப்புக்கு இணையம் தேவை.</string>
+
+    <string name="voice_title">பேசும் குரல்</string>
+    <string name="voice_ok">இந்த மொழிக்கான குரல் தயார்</string>
+    <string name="voice_missing">இந்த மொழிக்கு குரல் இல்லை. எச்சரிக்கை தவறான உச்சரிப்பில் படிக்கப்படும்.</string>
+    <string name="voice_install">குரலைப் பதிவிறக்கு</string>
+    <string name="voice_test">குரலைச் சோதி</string>
+    <string name="voice_test_line">இது மோசடி. பணம் அனுப்ப வேண்டாம்.</string>
+</resources>

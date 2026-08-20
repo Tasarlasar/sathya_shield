@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Hindi strings, authored rather than machine-translated (PRD 8.4). Register is
+  deliberately spoken/colloquial, not formal or literary.
+  STATUS: first draft. Needs review by a native speaker before any demo.
+-->
+<resources>
+    <string name="share_target_label">SatyaShield से जाँचें</string>
+
+    <string name="band_red_headline">यह धोखा है</string>
+    <string name="band_amber_headline">इससे सावधान रहें</string>
+    <string name="band_green_headline">कुछ गलत नहीं मिला</string>
+
+    <string name="band_red_action">पैसे मत भेजिए। लिंक मत खोलिए। कोई नंबर मत बताइए।</string>
+    <string name="band_amber_action">अभी कुछ मत कीजिए। पहले यह अपने परिवार को दिखाइए।</string>
+    <string name="band_green_action">यह ठीक लगता है। पैसे मांगने वालों से सावधान रहिए।</string>
+
+    <string name="reason_apk">यह लिंक आपके फ़ोन में नया ऐप डालता है। बैंक कभी ऐप का लिंक नहीं भेजता।</string>
+    <string name="reason_userinfo">लिंक में बैंक का नाम दिखता है, लेकिन वह कहीं और ले जाता है।</string>
+    <string name="reason_ip_host">इस लिंक में वेबसाइट के नाम की जगह नंबर हैं। सच्चे बैंक ऐसा नहीं करते।</string>
+    <string name="reason_punycode">वेबसाइट के नाम में मिलते-जुलते अक्षर हैं, जो असली नाम की नकल करते हैं।</string>
+    <string name="reason_brand">यह वेबसाइट %1$s होने का नाटक करती है, पर है नहीं। असली वेबसाइट अलग है।</string>
+    <string name="reason_shortener">यह छोटा लिंक है। यह असल में कहाँ जाता है, दिखता नहीं।</string>
+    <string name="reason_risky_tld">इस तरह के वेबसाइट पते अक्सर ठगी में इस्तेमाल होते हैं।</string>
+    <string name="reason_credential_path">यह पेज आपका पासवर्ड या नंबर मांगेगा।</string>
+    <string name="reason_no_tls">यह वेबसाइट सुरक्षित नहीं है।</string>
+    <string name="reason_upi_unknown">कोई अनजान व्यक्ति आपसे सीधे पैसे भेजने को कह रहा है।</string>
+    <string name="reason_credential_request">वे आपका ओटीपी या पिन मांग रहे हैं। कोई सच्चा बैंक या अफ़सर यह कभी नहीं मांगता।</string>
+    <string name="reason_digital_arrest">कोई पुलिस बनकर पैसे मांग रहा है। पुलिस फ़ोन पर कभी पैसे नहीं मांगती।</string>
+    <string name="reason_advance_fee">वे कहते हैं आपने कुछ जीता है, फिर पहले पैसे मांगते हैं। यह हमेशा ठगी होती है।</string>
+    <string name="reason_urgent_money">वे पैसे के लिए आपको जल्दी करा रहे हैं। जल्दबाज़ी कराना ही उनकी चाल है।</string>
+    <string name="reason_kyc_pressure">वे आपका खाता बंद करने की धमकी दे रहे हैं। बैंक संदेश से ऐसा नहीं करता।</string>
+    <string name="reason_job_bait">ऐसी आसान कमाई वाली नौकरी पैसे देती नहीं, आपसे पैसे ले लेती है।</string>
+    <string name="reason_sender_unknown">यह उस नंबर से आया है जो आपके संपर्कों में नहीं है।</string>
+    <string name="reason_media_prompt">इस संदेश में फ़ोटो या वीडियो भी है। जाँचने के लिए दबाइए।</string>
+
+    <string name="alert_ask_family">परिवार को पूछें</string>
+    <string name="alert_dismiss">बंद करें</string>
+    <string name="alert_repeat">फिर से बोलें</string>
+    <string name="alert_why">क्यों?</string>
+
+    <string name="setup_title">सुरक्षा शुरू करें</string>
+    <string name="setup_subtitle">इसमें एक मिनट लगेगा। जिसकी रक्षा करनी है, उसके फ़ोन पर एक बार कर दें।</string>
+    <string name="setup_step_notifications">SatyaShield को आने वाले संदेश पढ़ने दें</string>
+    <string name="setup_step_notifications_why">ज़रूरी है ताकि कुछ दबाने से पहले चेतावनी मिल सके। संदेश इसी फ़ोन में जाँचा जाता है, कहीं भेजा नहीं जाता।</string>
+    <string name="setup_step_overlay">SatyaShield को पूरी चेतावनी दिखाने दें</string>
+    <string name="setup_step_overlay_why">ज़रूरी है ताकि खतरे की चेतावनी पूरी स्क्रीन पर आए, छोटी सूचना बनकर छूट न जाए।</string>
+    <string name="setup_step_battery">फ़ोन को SatyaShield बंद करने से रोकें</string>
+    <string name="setup_step_battery_why">कई फ़ोन बैटरी बचाने के लिए ऐप बंद कर देते हैं। इसके बिना सुरक्षा चुपचाप रुक जाती है।</string>
+    <string name="setup_step_language">बोलने की भाषा चुनें</string>
+    <string name="setup_grant">अनुमति दें</string>
+    <string name="setup_granted">हो गया</string>
+    <string name="setup_open_settings">सेटिंग खोलें</string>
+
+    <string name="selftest_title">जाँचें कि यह काम कर रहा है</string>
+    <string name="selftest_body">हम इस फ़ोन पर एक नकली ठगी संदेश भेजेंगे। अगर सुरक्षा चालू है, तो लाल चेतावनी आएगी।</string>
+    <string name="selftest_run">परीक्षण संदेश भेजें</string>
+    <string name="selftest_pass">काम कर रहा है। चेतावनी आ गई।</string>
+    <string name="selftest_fail">कोई चेतावनी नहीं आई। ऊपर की अनुमतियाँ देखें।</string>
+    <string name="selftest_waiting">चेतावनी का इंतज़ार…</string>
+
+    <string name="home_protected">सुरक्षा चालू है</string>
+    <string name="home_not_protected">सुरक्षा बंद है</string>
+    <string name="home_check_something">कोई संदेश जाँचें</string>
+    <string name="home_paste_hint">यहाँ संदेश या लिंक चिपकाएँ</string>
+    <string name="home_check_now">अभी जाँचें</string>
+    <string name="home_recent">हाल की जाँच</string>
+    <string name="home_no_recent">अभी कुछ जाँचा नहीं गया</string>
+
+    <string name="status_channel_name">सुरक्षा की स्थिति</string>
+    <string name="status_channel_desc">दिखाता है कि SatyaShield ठगी पर नज़र रख रहा है</string>
+    <string name="alert_channel_name">ठगी की चेतावनी</string>
+    <string name="alert_channel_desc">खतरनाक संदेशों की चेतावनी</string>
+    <string name="selftest_channel_name">परीक्षण संदेश</string>
+    <string name="status_watching">SatyaShield नज़र रख रहा है</string>
+
+    <string name="offline_notice">सिर्फ़ इस फ़ोन में जाँचा गया। गहरी जाँच के लिए इंटरनेट चाहिए।</string>
+
+    <string name="voice_title">बोलने वाली आवाज़</string>
+    <string name="voice_ok">इस भाषा के लिए आवाज़ तैयार है</string>
+    <string name="voice_missing">इस भाषा की आवाज़ नहीं है। चेतावनी गलत उच्चारण में पढ़ी जाएगी।</string>
+    <string name="voice_install">आवाज़ डाउनलोड करें</string>
+    <string name="voice_test">आवाज़ जाँचें</string>
+    <string name="voice_test_line">यह धोखा है। पैसे मत भेजिए।</string>
+</resources>

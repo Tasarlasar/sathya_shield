@@ -1,0 +1,29 @@
+{
+  "fetched_at": "2026-08-20T06:44:29.250345+00:00",
+  "sources": {
+    "phishing_urls": {
+      "urls": [
+        "https://data.phishtank.com/data/online-valid.csv",
+        "https://openphish.com/feed.txt"
+      ],
+      "count": 72879,
+      "licence": "community feeds, free access",
+      "caveat": "community-reported, recency-skewed, label noise likely",
+      "excluded": "URLhaus deliberately omitted: malware droppers, not phishing"
+    },
+    "benign_domains": {
+      "url": "https://tranco-list.eu/top-1m.csv.zip",
+      "count": 19000,
+      "licence": "free for research",
+      "caveat": "sampled across all rank decades to avoid learning popularity"
+    },
+    "sms_corpus": {
+      "url": "https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip",
+      "count": 5574,
+      "spam": 747,
+      "ham": 4827,
+      "licence": "UCI ML Repository, free for research",
+      "caveat": "English only, dated, not Indian"
+    }
+  }
+}

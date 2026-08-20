@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Parented to a platform theme rather than a Material Components theme so we
+      do not need the com.google.android.material dependency. The app UI is
+      Compose; these XML themes only set window chrome.
+    -->
+    <style name="Theme.SatyaShield" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/brand_navy</item>
+        <item name="android:windowBackground">@color/surface</item>
+    </style>
+
+    <style name="Theme.SatyaShield.Transparent" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

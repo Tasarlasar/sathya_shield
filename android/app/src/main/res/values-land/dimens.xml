@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Landscape overrides.
+
+      Found on a real Pixel 7 held sideways: the portrait 180dp inset is 472px on
+      a 420dpi screen, which on a 1080px-tall landscape display consumed
+      everything below the action line. The reasons and all three buttons,
+      including Close, were pushed off-screen, leaving an alert the user could
+      neither read nor dismiss. A screen-takeover warning that cannot be
+      dismissed is worse than no warning.
+    -->
+    <dimen name="alert_icon_margin_top">16dp</dimen>
+    <dimen name="alert_icon_size">48dp</dimen>
+</resources>
