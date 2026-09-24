@@ -262,7 +262,7 @@ private fun MainScreen(modifier: Modifier = Modifier) {
                         verdict = verdict,
                         locale = AppPrefs.locale(context),
                         onAskFamily = {
-                            AskFamily.send(context.applicationContext, pasted, verdict)
+                            AskFamily.send(context.applicationContext, verdict)
                         },
                     )
                 }

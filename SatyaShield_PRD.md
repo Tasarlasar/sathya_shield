@@ -4,10 +4,11 @@
 
 | | |
 |---|---|
-| **Version** | 3.0 — post-critique rebuild |
+| **Version** | 3.1 — alert-trust hardening |
 | **Date** | August 19, 2026 |
 | **Status** | Scope locked, ready for build |
 | **Changed in v3.0** | Added PS compliance matrix and closed two hard gaps (email pillar, website-characteristics pillar). Fixed a false architectural assumption about passive media capture. Added competitive reality and standalone-viability assessment. Added model licensing, data acquisition and training-cost plans. Revised decision policy so only deterministic rules can raise a red alert. Added OCR path. |
+| **Changed in v3.1** | Three trust-hardening fixes after use, all with regression tests. (1) The text model no longer scores bare URLs as prose — it was flagging legitimate bank homepages (axisbank.com 0.86, irctc.co.in 0.84) because the UCI corpus ties URLs to spam. (2) Every alert now quotes the message that triggered it, in the overlay, the notification and the family SMS. (3) Email detection is now reachable on the phone: `EmailRules.kt` ports the backend header forensics on-device and the share sheet routes shared emails through it. See §5.8, §5.9, §11.5, §14.4. |
 
 **One-line pitch:** *One explainable verdict on any link, email, website, video or voice note — delivered before you act, in your language, out loud.*
 
@@ -57,13 +58,13 @@ Every requirement, traced to where it is satisfied. Treat this as the acceptance
 
 | # | PS clause | Where satisfied | Status |
 |---|---|---|---|
-| 1 | detects **phishing emails** | §6.3 Email pillar — header forensics + body classifier | **Added in v3.0** |
+| 1 | detects **phishing emails** | §6.3 backend + §5.9 on-device (`EmailRules.kt`) — header forensics + body through URL/text rules | **On-device in v3.1** |
 | 2 | detects **malicious websites** | §6.1 URL pillar + §6.2 Website pillar | Covered |
 | 3 | detects **deepfake audio or video** | §6.5, §6.6 | Covered |
 | 4 | uses **machine learning** | §11.5 — domain-reputation model (gradient boosting) and text classifier (TF-IDF + logistic regression), both trained and wired in | **Implemented and measured** |
 | 5 | uses **pretrained classification models** | CLIP probe (video), AASIST (audio) — §11.1. Not yet implemented | Planned, not built |
 | 6 | analyzes **URLs** | §6.1 — lexical, rules, WHOIS, redirect chain | Covered |
-| 7 | analyzes **email content** | §6.3 — headers, body, links, attachments | **Added in v3.0** |
+| 7 | analyzes **email content** | §6.3 backend + §5.9 on-device — headers, body, links, attachments | **On-device in v3.1** |
 | 8 | analyzes **website characteristics** | §6.2 — DOM, forms, TLS cert, favicon, resource origins, visual similarity | **Added in v3.0** |
 | 9 | analyzes **multimedia inputs** | §6.5, §6.6 | Covered |
 | 10 | generates **risk scores or warnings** | §14 — three-state verdict, numeric drill-down | Covered |
@@ -548,6 +549,14 @@ The fix reads `MessagingStyle` first via `NotificationCompat.MessagingStyle.extr
 
 **Generalisable lesson for the build:** every messaging app must be verified individually with a real inbound message. Telegram, Instagram and Signal all use their own notification styles and none is covered by testing WhatsApp. Treat "which field holds the body" as per-app knowledge to be measured, not assumed.
 
+### 5.9 Email detection now runs on-device (v3.1)
+
+Email header forensics existed only on the backend, and the app never called the backend — the phone is 100% on-device, and OkHttp is a dependency that nothing uses. So on the actual product, email detection did not exist. PS clauses 1 and 7 were satisfied on paper (the FastAPI endpoint) and unreachable in the hand.
+
+**Fix:** `EmailRules.kt` ports the header forensics to Kotlin — display-name-brand-vs-sending-domain (`EMAIL_BRAND_FROM_FREEMAIL` CRITICAL: a bank never mails from Gmail), sender-domain lookalike, `Reply-To` divergence, `Return-Path` mismatch, and SPF/DKIM/DMARC. The share sheet detects email-shaped content (`From:`/`Subject:` header lines, or an angle-bracketed address) and routes it through `LocalRules.analyseEmail`, which runs the header rules and also passes the body through the ordinary URL and text rules. The manifest now advertises `message/rfc822`, so mail apps offer SatyaShield in their share menu.
+
+**Honest constraint on the entry point.** The realistic on-device source is "share this email" from a mail app, which hands over the body and usually a `From` line but **not** the full RFC 822 header block. So on a phone the forensics are partial by construction: display-name and sender-domain checks fire whenever those lines are present and degrade to silence when they are not. Crucially, **`Authentication-Results` is not trusted on the phone** — a shared or pasted blob has attacker-controllable headers, so SPF/DKIM/DMARC evaluation is gated behind `trustAuthHeaders`, which is false for shared content and would only be true for mail retrieved through an authenticated account (not built). The full-fidelity path remains the web checker / API, where the complete raw message is available. Verified end to end in unit tests: a phishing email reaches RED, a legitimate bank email stays GREEN.
+
 ## 6. Detection Pillars
 
 ### 6.1 URL and link
@@ -880,10 +889,11 @@ It also validates the architecture: the deterministic rules catch the SBI messag
 
 Adding classifiers to a working rule engine **introduced a false positive**: a genuine HDFC transaction SMS moved from GREEN to AMBER, because the text model scores real bank messages at ~0.75 — they resemble the promotional spam in the UCI corpus.
 
-Two fixes, both now regression-tested:
+Three fixes, all now regression-tested:
 
 1. **Model output is only surfaced at high-precision operating points.** URL floor raised to p ≥ 0.90 (97.8% measured precision), text floor to p ≥ 0.85. Recall is traded away deliberately: a model can only reach AMBER, but a stream of unjustified ambers still teaches the user to ignore us, and recall is the rule engine's job.
 2. **Protective credential advice no longer counts as evidence.** "Never share your OTP or PIN" is what real banks put in every transaction SMS. The strong rule already handled negation; the weak residue signal did not, and "Do not share **it** with anyone" needed pronoun handling too.
+3. **The text model never scores a bare URL as prose (v3.1).** Found in use: legitimate bank homepages were pushed to AMBER — `axisbank.com` scored 0.858, `irctc.co.in` 0.835, even `google.com` 0.652 — because the UCI corpus ties URLs to spam, so the classifier learned "contains a link ⇒ scam". The fix strips URLs before scoring and, when what remains is essentially just a link (under 12 alphanumeric characters of prose), does not consult the model at all. URLs are the URL pillar's job; the text model judges the words a human wrote around them. `axisbank.com` and friends are now GREEN, and a scam with a link is unaffected because its prose still scores. The on-device engine never had this bug — it carries no text model and its URL rules allowlist real bank domains — but it gained a matching `stripUrls` helper so the two engines cannot diverge once a model is added on-device.
 
 Current behaviour on an unknown sender, which is the realistic case since bank shortcodes are never saved contacts:
 
@@ -896,10 +906,11 @@ Current behaviour on an unknown sender, which is the realistic case since bank s
 | Real HDFC transaction SMS | GREEN |
 | Real OTP SMS | GREEN |
 | Amazon delivery notice | GREEN |
+| Bare bank URL (axisbank.com, irctc.co.in) | GREEN *(v3.1; was AMBER)* |
 | Family message | GREEN |
 | Hinglish scam | AMBER |
 
-The fourth row is the §14.2 guarantee demonstrated with a real classifier rather than a synthetic test signal.
+The model-only-spam row is the §14.2 guarantee demonstrated with a real classifier rather than a synthetic test signal.
 
 ## 12. Data Acquisition Plan
 
@@ -1010,6 +1021,14 @@ Concretely: a user receiving ~40 messages a day, with a handful from unknown sen
 
 **Target: red precision ≥98%, measured and reported. Amber may be noisy because amber does not interrupt.** This is why §14.2 exists.
 
+### 14.4 Every alert quotes the message that triggered it (v3.1)
+
+An alert that says "this is a fraud" without showing *what* is a fraud asks the user to take our word for it, and a warning the user cannot connect to a specific message is easy to dismiss as noise. So every verdict now carries the triggering text (`LocalVerdict.sourceText`), and it is shown back to the user in three places: the overlay (a boxed, quoted block under the reasons), the amber notification, and the "Ask family" forward. The quote is whitespace-collapsed and truncated to ~220 characters, and it is carried on the verdict object rather than passed alongside it, so what the user sees is provably the same text that was analysed — the two cannot drift.
+
+This also strengthens the family-escalation loop (§9): the trusted contact receives the flagged message verbatim plus the verdict and reasons, so they can make the call the primary user could not.
+
+Nothing about this weakens the privacy posture (§15.1): the quote is assembled and displayed entirely on-device and is never logged, consistent with the rule that message content stays on the phone.
+
 ## 15. Privacy, Policy and Compliance
 
 ### 15.1 Privacy posture
@@ -1052,6 +1071,7 @@ Ranked by expected damage.
 | 3 | FF++/Celeb-DF approval arrives too late | Medium | High | Submit day zero (§12.2). Pretrained HF checkpoint as fallback |
 | 4 | **OEM battery managers kill the foreground service** | **High** | **High** | Xiaomi, Oppo, Vivo and Realme are aggressive, and dominate our target segment. Request battery exemption (F43), ship per-OEM instructions, test on a real budget handset. **A Pixel cannot test this** — our listener survived six hours untouched on one, which is no evidence at all |
 | 5 | Red-alert false positives erode trust | Medium | High | §14.2 rule-gating, §14.3 precision target |
+| 5a | **Model false positives on legitimate content erode trust more slowly** | **Was confirmed; fixed** | Medium | The text model pushed real bank SMS and even bare bank URLs (axisbank.com, irctc.co.in) to AMBER — the UCI corpus ties URLs and bank-style promo text to spam. Fixed three ways (§11.5): high-precision thresholds only, protective-advice suppression, and never scoring a bare URL as prose. Amber does not interrupt, but a stream of unjustified ambers still trains the user to ignore us |
 | 6 | Overlay/notification permissions not granted or revoked | Medium | High | F39 guided flow, F41 self-test to verify grants took effect |
 | 7 | Replayed notification history causes alert bursts | **Confirmed on-device** | High | Content fingerprints retained 24h plus an 8s cold-start warm-up. Measured: Google Messages re-posts sibling conversation notifications with refreshed timestamps, so an age check alone is insufficient |
 | 8 | Sensitive-notification redaction on untested OEMs/versions | Low–Medium | High if hit | §5.7. Does **not** occur on Pixel 7 / Android 17. Samsung and Chinese OEM builds unverified. `appops` escape hatch documented if encountered |

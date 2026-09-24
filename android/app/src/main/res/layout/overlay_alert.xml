@@ -70,6 +70,36 @@
             android:textColor="@color/on_band_muted"
             android:textSize="17sp" />
 
+        <!-- The message that triggered the warning, quoted back so the user can
+             see exactly what is being flagged. Boxed and italic so it reads as
+             a quotation, not as our own words. Hidden when empty. -->
+        <TextView
+            android:id="@+id/alert_quoted_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="start"
+            android:text="@string/alert_quoted_label"
+            android:textColor="@color/on_band_muted"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/alert_quoted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@color/band_red_dark"
+            android:gravity="start"
+            android:lineSpacingExtra="3dp"
+            android:padding="12dp"
+            android:textColor="@color/on_band"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:maxLines="6"
+            android:ellipsize="end"
+            android:visibility="gone" />
+
         <!-- Ask family is the primary action, not dismiss. The failure mode this
              addresses is a correct warning that gets ignored under pressure. -->
         <Button

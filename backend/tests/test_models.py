@@ -121,6 +121,56 @@ class TestModelsCannotCauseRed:
 
 
 @requires_models
+class TestUrlOnlyMessagesAreNotScoredAsProse:
+    """The text model must not score a bare URL as prose.
+
+    Regression for a measured trust-eroding bug: the UCI corpus ties URLs to
+    spam, so the classifier scored bank homepages 0.58-0.88 (axisbank.com 0.86,
+    irctc.co.in 0.84) and pushed legitimate bank links to AMBER. URLs are the URL
+    pillar's job; the text model only judges surrounding prose.
+    """
+
+    BANK_URLS = [
+        "https://www.axisbank.com/",
+        "https://www.kotak.com/",
+        "https://www.pnbindia.in/",
+        "https://www.icicibank.com/",
+        "https://www.irctc.co.in/",
+        "https://retail.onlinesbi.sbi/retail/login.htm",
+        "www.icicibank.com",
+    ]
+
+    @pytest.mark.parametrize("url", BANK_URLS)
+    def test_bare_bank_url_is_not_scored_by_text_model(self, url: str):
+        assert text_model.score_text(url) is None, (
+            f"{url} was scored as prose; the URL should be left to the URL pillar"
+        )
+
+    @pytest.mark.parametrize("url", BANK_URLS)
+    def test_legit_bank_url_stays_green(self, url: str):
+        verdict = pipeline.check_message(MessageInput(text=url, sender_known=False))
+        assert verdict.band is Band.GREEN, (
+            f"{url} -> {verdict.band.value} {[s.code for s in verdict.signals]}"
+        )
+
+    def test_prose_around_a_url_is_still_scored(self):
+        # A real message with words plus a link must still reach the model.
+        assert text_model.score_text(
+            "Congratulations you won a free prize, claim now at http://x.top/win"
+        ) is not None
+
+    def test_scam_with_link_still_flags(self):
+        verdict = pipeline.check_message(
+            MessageInput(
+                text="SBI KYC expired. Verify at http://sbi-rewards.xyz/login "
+                "and install http://x.top/a.apk",
+                sender_known=False,
+            )
+        )
+        assert verdict.band is Band.RED
+
+
+@requires_models
 class TestModelsDoNotIntroduceFalsePositives:
     """Regression tests for the cost of adding models to a working rule engine.
 

@@ -172,7 +172,35 @@ object LocalRules {
         signals += analyseUpi(text, senderKnown)
         signals += analyseText(text, lower, senderKnown)
 
-        return Fusion.decide(signals, mediaPresent = looksLikeMedia(lower))
+        return Fusion.decide(
+            signals,
+            mediaPresent = looksLikeMedia(lower),
+            sourceText = text,
+        )
+    }
+
+    /**
+     * Analyse a shared or pasted email.
+     *
+     * Runs email header forensics (EmailRules) AND the ordinary URL/text rules
+     * over the body, so a phishing email is judged on both its headers and its
+     * content. `trustAuthHeaders` is false by default because on a phone the
+     * headers are user-supplied and therefore attacker-controllable.
+     */
+    fun analyseEmail(raw: String, trustAuthHeaders: Boolean = false): LocalVerdict {
+        val signals = mutableListOf<Signal>()
+
+        signals += EmailRules.analyse(raw, trustAuthHeaders)
+
+        // The body still gets the normal treatment: links, UPI handles, scam
+        // language. This is where a lookalike URL or urgency phrasing is caught.
+        val body = EmailRules.bodyText(raw)
+        val lower = body.lowercase()
+        extractUrls(body).forEach { signals += analyseUrl(it) }
+        signals += analyseUpi(body, senderKnown = false)
+        signals += analyseText(body, lower, senderKnown = false)
+
+        return Fusion.decide(signals, sourceText = raw)
     }
 
     fun extractUrls(text: String): List<String> =
@@ -181,6 +209,20 @@ object LocalRules {
             .map { if (it.lowercase().startsWith("www.")) "http://$it" else it }
             .distinct()
             .toList()
+
+    /**
+     * Text with URLs removed, for any prose-level scoring.
+     *
+     * The on-device engine has no text model today, so the URL-as-prose false
+     * positive that hit the backend (bank homepages scored 0.6-0.9 by a
+     * classifier that learned "contains a link => scam") cannot occur here. This
+     * helper exists so that when a text model IS added on-device it inherits the
+     * same contract as the backend: URLs are the URL pillar's job, and the text
+     * model only ever sees the words a human wrote. Keeping the two engines
+     * symmetric is what stops them disagreeing about whether to interrupt.
+     */
+    fun stripUrls(text: String): String =
+        URL_REGEX.replace(text, " ").trim()
 
     fun looksLikeMedia(lowerText: String): Boolean =
         MEDIA_PLACEHOLDERS.any { lowerText.contains(it) }
@@ -326,6 +368,45 @@ object LocalRules {
                     owners.none { registrable.endsWith(".$it") }
             }
             .map { it.key }
+
+    // ----------------------------------------------------------------------
+    // Shared with EmailRules
+    // ----------------------------------------------------------------------
+
+    /**
+     * Consumer mail providers. An institution claiming to be a bank while
+     * sending from one of these is near-conclusive: banks do not use Gmail.
+     * Mirrors FREEMAIL_DOMAINS in the backend url_rules.
+     */
+    val FREEMAIL_DOMAINS = setOf(
+        "gmail.com", "googlemail.com", "yahoo.com", "yahoo.in", "yahoo.co.in",
+        "outlook.com", "hotmail.com", "live.com", "msn.com", "aol.com",
+        "rediffmail.com", "protonmail.com", "proton.me", "zoho.com", "zohomail.com",
+        "icloud.com", "me.com", "mail.com", "gmx.com", "yandex.com",
+    )
+
+    /**
+     * Indian brand tokens present in a human-readable display name.
+     *
+     * Word-start anchored, not plain substring: a naive `contains` would match
+     * `trai` inside `straight` and manufacture false positives, which section
+     * 14.3 says is what destroys trust. Anchoring still catches run-together
+     * forms like `HDFCBank`.
+     */
+    fun brandTokensInDisplayName(name: String): List<String> {
+        if (name.isBlank()) return emptyList()
+        val lowered = name.lowercase()
+        return BRAND_DOMAINS.keys.filter { brand ->
+            Regex("""\b${Regex.escape(brand)}""").containsMatchIn(lowered)
+        }
+    }
+
+    /** Whether [domain] legitimately belongs to [brand]. */
+    fun brandOwnsDomain(brand: String, domain: String): Boolean {
+        val owners = BRAND_DOMAINS[brand] ?: return false
+        val d = domain.lowercase()
+        return d in owners || owners.any { d.endsWith(".$it") }
+    }
 
     // ----------------------------------------------------------------------
     // UPI

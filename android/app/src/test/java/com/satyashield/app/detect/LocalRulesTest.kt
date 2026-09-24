@@ -81,6 +81,41 @@ class LocalRulesTest {
     }
 
     @Test
+    fun `legit bank homepages produce no signals`() {
+        // The backend text model scored these 0.6-0.9 and pushed them to AMBER.
+        // The on-device engine has no text model and its URL rules allowlist the
+        // real domains, so these must be silent.
+        listOf(
+            "https://www.axisbank.com/",
+            "https://www.icicibank.com/",
+            "https://www.hdfcbank.com/personal/pay",
+            "https://retail.onlinesbi.sbi/retail/login.htm",
+            "https://www.irctc.co.in/",
+        ).forEach { url ->
+            val verdict = LocalRules.analyse(url, senderKnown = false)
+            assertEquals(
+                "false positive on legit bank URL: $url -> ${verdict.signals.map { it.code }}",
+                Band.GREEN,
+                verdict.band,
+            )
+        }
+    }
+
+    @Test
+    fun `verdict carries the triggering message`() {
+        val text = "SBI KYC expired. Verify at http://sbi-rewards.xyz/login"
+        val verdict = LocalRules.analyse(text, senderKnown = false)
+        assertEquals(text, verdict.sourceText)
+    }
+
+    @Test
+    fun `stripUrls removes links and keeps prose`() {
+        assertEquals("Pay now", LocalRules.stripUrls("Pay now https://x.top/a").trim())
+        assertEquals("", LocalRules.stripUrls("https://www.axisbank.com/"))
+        assertEquals("", LocalRules.stripUrls("www.icicibank.com"))
+    }
+
+    @Test
     fun `url extraction handles bare www and trailing punctuation`() {
         val found = LocalRules.extractUrls("Pay at www.sbi-verify.top/kyc or https://x.co/a.")
         assertTrue(found.contains("http://www.sbi-verify.top/kyc"))

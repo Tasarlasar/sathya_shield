@@ -16,6 +16,7 @@ records the fix: a hand-collected Indian corpus, not a larger model.
 from __future__ import annotations
 
 import logging
+import re
 from functools import lru_cache
 from typing import Any
 
@@ -36,6 +37,30 @@ MIN_PROBABILITY = 0.85
 # Longer inputs are truncated: the classifier was trained on SMS-length text and
 # a long email body dilutes the signal.
 MAX_CHARS = 2_000
+
+# The text model must never score a URL as prose.
+#
+# The UCI training corpus ties URLs to spam, so the classifier learned
+# "contains a link => scam" and scores bare bank homepages 0.58-0.88
+# (axisbank.com 0.86, irctc.co.in 0.84, google.com 0.65). When a message is
+# essentially just a link, running the text model on it produces a confident
+# false positive on a legitimate site. URLs are the URL pillar's job; the text
+# model judges the words a human wrote around them.
+_URL_RE = re.compile(r"""(?xi)\b(?:https?://|www\.)[^\s<>"'\]\[{}|\\^`]+""")
+
+# After URLs are stripped, a message with fewer than this many alphanumeric
+# characters left is treated as "just a link" and the model is not consulted.
+# Long enough to drop a bare URL, short enough to keep "Pay here: <link>".
+_MIN_PROSE_WORD_CHARS = 12
+
+
+def strip_urls(text: str) -> str:
+    """Remove URLs so the model scores only the surrounding prose."""
+    return _URL_RE.sub(" ", text or "").strip()
+
+
+def _prose_char_count(text: str) -> int:
+    return sum(1 for c in text if c.isalnum())
 
 
 @lru_cache(maxsize=1)
@@ -69,12 +94,23 @@ def model_metrics() -> dict[str, Any]:
 
 
 def score_text(text: str) -> float | None:
-    """Probability that a message is a scam, or None if the model is unavailable."""
+    """Probability that a message is a scam, or None if not scored.
+
+    Returns None both when the model is unavailable AND when the message is
+    essentially just a URL, because the model cannot judge a link as prose.
+    """
     bundle = _load()
     if bundle is None or not text or not text.strip():
         return None
+
+    prose = strip_urls(text)
+    if _prose_char_count(prose) < _MIN_PROSE_WORD_CHARS:
+        # Nothing but a link (and maybe a word or two). Leave URL judgement to
+        # the URL pillar; scoring this as prose is what flagged bank homepages.
+        return None
+
     try:
-        return float(bundle["model"].predict_proba([text[:MAX_CHARS]])[0][1])
+        return float(bundle["model"].predict_proba([prose[:MAX_CHARS]])[0][1])
     except Exception:
         logger.warning("text model scoring failed", exc_info=True)
         return None

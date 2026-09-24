@@ -64,6 +64,8 @@
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
+                <!-- message/rfc822 is what mail apps use for "share email". -->
+                <data android:mimeType="message/rfc822" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

@@ -12,6 +12,8 @@ data class RenderedVerdict(
     val action: String,
     val reasons: List<String>,
     val spoken: String,
+    /** The triggering message, trimmed for display. Empty if none. */
+    val quoted: String,
 )
 
 /**
@@ -26,6 +28,19 @@ object VerdictText {
 
     /** At most three reasons: a longer list is overwhelming, not convincing. */
     const val MAX_REASONS = 3
+
+    /** Longest quoted message shown in the alert; longer is truncated. */
+    const val MAX_QUOTE_CHARS = 220
+
+    /** Collapse whitespace and truncate the triggering message for display. */
+    fun quoteFor(sourceText: String): String {
+        val collapsed = sourceText.replace(Regex("""\s+"""), " ").trim()
+        return if (collapsed.length <= MAX_QUOTE_CHARS) {
+            collapsed
+        } else {
+            collapsed.take(MAX_QUOTE_CHARS).trimEnd() + "\u2026"
+        }
+    }
 
     fun render(context: Context, verdict: LocalVerdict): RenderedVerdict {
         // Resolve strings in the user's chosen language, not the device's.
@@ -70,6 +85,7 @@ object VerdictText {
             // Headline plus instruction only. The evidence is on screen to be
             // read, not recited.
             spoken = "$headline. $action",
+            quoted = quoteFor(verdict.sourceText),
         )
     }
 }

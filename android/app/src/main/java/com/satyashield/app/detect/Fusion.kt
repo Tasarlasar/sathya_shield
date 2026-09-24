@@ -46,7 +46,11 @@ object Fusion {
         return highCount >= HIGH_SIGNALS_FOR_RED
     }
 
-    fun decide(signals: List<Signal>, mediaPresent: Boolean = false): LocalVerdict {
+    fun decide(
+        signals: List<Signal>,
+        mediaPresent: Boolean = false,
+        sourceText: String = "",
+    ): LocalVerdict {
         val score = riskScore(signals)
         val redEligible = isRedEligible(signals)
         val band = when {
@@ -60,6 +64,7 @@ object Fusion {
             redEligible = redEligible,
             signals = rank(signals),
             mediaPresent = mediaPresent,
+            sourceText = sourceText,
         )
     }
 

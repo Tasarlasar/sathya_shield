@@ -8,6 +8,7 @@ import com.satyashield.app.alert.AlertPresenter
 import com.satyashield.app.alert.Speaker
 import com.satyashield.app.alert.VerdictText
 import com.satyashield.app.detect.Band
+import com.satyashield.app.detect.EmailRules
 import com.satyashield.app.detect.LocalRules
 import com.satyashield.app.service.AskFamily
 import com.satyashield.app.settings.AppPrefs
@@ -64,7 +65,14 @@ class ShareTargetActivity : ComponentActivity() {
     }
 
     private fun checkText(text: String) {
-        val verdict = LocalRules.analyse(text, senderKnown = false)
+        // If the shared content looks like an email (header lines or an
+        // angle-bracketed address), run the email pillar too. Auth headers from
+        // a shared blob are attacker-controllable, so they are not trusted.
+        val verdict = if (EmailRules.looksLikeEmail(text)) {
+            LocalRules.analyseEmail(text, trustAuthHeaders = false)
+        } else {
+            LocalRules.analyse(text, senderKnown = false)
+        }
         VerdictLog.record(this, text, verdict)
 
         if (verdict.band == Band.GREEN) {
@@ -78,7 +86,7 @@ class ShareTargetActivity : ComponentActivity() {
             context = applicationContext,
             verdict = verdict,
             locale = AppPrefs.locale(this),
-            onAskFamily = { AskFamily.send(applicationContext, text, verdict) },
+            onAskFamily = { AskFamily.send(applicationContext, verdict) },
         )
     }
 }

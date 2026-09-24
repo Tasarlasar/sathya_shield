@@ -34,6 +34,15 @@
     <string name="reason_sender_unknown">यह उस नंबर से आया है जो आपके संपर्कों में नहीं है।</string>
     <string name="reason_media_prompt">इस संदेश में फ़ोटो या वीडियो भी है। जाँचने के लिए दबाइए।</string>
 
+    <string name="reason_email_brand_freemail">नाम में %1$s लिखा है, पर यह मेल किसी निजी खाते से आया है, बैंक से नहीं।</string>
+    <string name="reason_email_display_spoof">भेजने वाले का नाम %1$s है, पर असली पता उससे मेल नहीं खाता।</string>
+    <string name="reason_email_sender_lookalike">भेजने वाले का पता %1$s की नकल करता है, पर असली नहीं है।</string>
+    <string name="reason_email_reply_to">अगर आप जवाब देंगे, तो वह किसी और के पास जाएगा।</string>
+    <string name="reason_email_return_path">यह मेल जहाँ से भेजा गया है, वह बताई गई जगह से अलग है।</string>
+    <string name="reason_email_auth_fail">भेजने वाले की पहचान साबित नहीं हुई। यह मेल बहुत संभव है नकली हो।</string>
+    <string name="reason_email_auth_weak">भेजने वाले की पहचान पूरी तरह जाँची नहीं जा सकी।</string>
+
+    <string name="alert_quoted_label">यह संदेश:</string>
     <string name="alert_ask_family">परिवार को पूछें</string>
     <string name="alert_dismiss">बंद करें</string>
     <string name="alert_repeat">फिर से बोलें</string>

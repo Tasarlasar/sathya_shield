@@ -27,7 +27,14 @@ object AskFamily {
     private const val TAG = "SatyaAskFamily"
     private const val MAX_FORWARDED_CHARS = 400
 
-    fun send(context: Context, originalText: String, verdict: LocalVerdict) {
+    /**
+     * Forward the flagged message and the verdict to the trusted contact.
+     *
+     * The triggering message is read from the verdict itself (`sourceText`), so
+     * the family sees exactly what the alert saw. Callers no longer pass the
+     * text separately, which removes a chance for the two to drift apart.
+     */
+    fun send(context: Context, verdict: LocalVerdict) {
         val contact = AppPrefs.trustedContact(context)
         if (contact.isNullOrBlank()) {
             Toast.makeText(context, "No family contact set up yet", Toast.LENGTH_LONG).show()
@@ -35,7 +42,7 @@ object AskFamily {
         }
 
         val rendered = VerdictText.render(context, verdict)
-        val excerpt = originalText.take(MAX_FORWARDED_CHARS)
+        val excerpt = verdict.sourceText.take(MAX_FORWARDED_CHARS)
         val body = buildString {
             append("SatyaShield warning: ")
             append(rendered.headline)

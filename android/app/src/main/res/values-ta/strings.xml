@@ -33,6 +33,15 @@
     <string name="reason_sender_unknown">இது உங்கள் தொடர்புகளில் இல்லாத எண்ணிலிருந்து வந்தது.</string>
     <string name="reason_media_prompt">இந்தச் செய்தியில் படம் அல்லது காணொளியும் உள்ளது. சரிபார்க்க தட்டுங்கள்.</string>
 
+    <string name="reason_email_brand_freemail">பெயரில் %1$s உள்ளது, ஆனால் இந்த அஞ்சல் தனிநபர் கணக்கிலிருந்து வந்தது, வங்கியிலிருந்து அல்ல.</string>
+    <string name="reason_email_display_spoof">அனுப்புநர் பெயர் %1$s, ஆனால் உண்மையான முகவரி அதற்குப் பொருந்தவில்லை.</string>
+    <string name="reason_email_sender_lookalike">அனுப்புநர் முகவரி %1$s ஐப் போலியாகப் பிரதிபலிக்கிறது, உண்மையானது அல்ல.</string>
+    <string name="reason_email_reply_to">நீங்கள் பதிலளித்தால், அது வேறு ஒருவரிடம் செல்லும்.</string>
+    <string name="reason_email_return_path">இந்த அஞ்சல் கூறப்பட்ட இடத்தைவிட வேறு இடத்திலிருந்து அனுப்பப்பட்டது.</string>
+    <string name="reason_email_auth_fail">அனுப்புநரை நிரூபிக்க முடியவில்லை. இந்த அஞ்சல் போலியாக இருக்க வாய்ப்பு அதிகம்.</string>
+    <string name="reason_email_auth_weak">அனுப்புநரின் அடையாளத்தை முழுமையாகச் சரிபார்க்க முடியவில்லை.</string>
+
+    <string name="alert_quoted_label">இந்தச் செய்தி:</string>
     <string name="alert_ask_family">குடும்பத்தைக் கேள்</string>
     <string name="alert_dismiss">மூடு</string>
     <string name="alert_repeat">மீண்டும் சொல்</string>

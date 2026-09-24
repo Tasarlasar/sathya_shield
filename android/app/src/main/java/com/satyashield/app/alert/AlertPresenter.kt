@@ -100,6 +100,17 @@ object AlertPresenter {
         view.findViewById<ImageView>(R.id.alert_icon)
             .setImageResource(R.drawable.ic_alert_stop)
 
+        // Quote the triggering message so the user can see exactly what is
+        // being flagged. Only shown when there is something to quote.
+        val quotedLabel = view.findViewById<TextView>(R.id.alert_quoted_label)
+        val quoted = view.findViewById<TextView>(R.id.alert_quoted)
+        if (text.quoted.isNotBlank()) {
+            quotedLabel.text = localized.getString(R.string.alert_quoted_label)
+            quotedLabel.visibility = View.VISIBLE
+            quoted.text = "\u201C${text.quoted}\u201D"
+            quoted.visibility = View.VISIBLE
+        }
+
         view.findViewById<Button>(R.id.alert_ask_family).apply {
             setText(localized.getString(R.string.alert_ask_family))
             setOnClickListener {
@@ -167,15 +178,19 @@ object AlertPresenter {
         highPriority: Boolean = false,
     ) {
         val text = VerdictText.render(context, verdict)
+        val body = buildList {
+            add(text.action)
+            addAll(text.reasons)
+            if (text.quoted.isNotBlank()) {
+                add("")
+                add("\u201C${text.quoted}\u201D")
+            }
+        }.joinToString("\n")
         val builder = NotificationCompat.Builder(context, SatyaShieldApp.CHANNEL_ALERTS)
             .setSmallIcon(R.drawable.ic_shield_small)
             .setContentTitle(text.headline)
             .setContentText(text.action)
-            .setStyle(
-                NotificationCompat.BigTextStyle().bigText(
-                    (listOf(text.action) + text.reasons).joinToString("\n")
-                )
-            )
+            .setStyle(NotificationCompat.BigTextStyle().bigText(body))
             .setAutoCancel(true)
             .setPriority(
                 if (highPriority) NotificationCompat.PRIORITY_MAX

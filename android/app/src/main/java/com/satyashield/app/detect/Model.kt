@@ -60,6 +60,14 @@ data class LocalVerdict(
     val redEligible: Boolean,
     val signals: List<Signal>,
     val mediaPresent: Boolean = false,
+    /**
+     * The message that triggered this verdict.
+     *
+     * Shown back to the user in the alert so they can see exactly what set it
+     * off ("this is the message we are warning you about"), rather than a
+     * disembodied warning. Stays on-device with the verdict and is never logged.
+     */
+    val sourceText: String = "",
 ) {
     /** Only RED may take over the screen. AMBER badges quietly (F34). */
     val interrupts: Boolean get() = band == Band.RED

@@ -32,7 +32,17 @@
     <string name="reason_sender_unknown">This came from a number that is not in your contacts.</string>
     <string name="reason_media_prompt">This message also has a photo or video. Tap to check it.</string>
 
+    <!-- Email reasons -->
+    <string name="reason_email_brand_freemail">The name says %1$s but this mail came from a personal account, not the bank.</string>
+    <string name="reason_email_display_spoof">The sender\'s name says %1$s, but the real address does not match it.</string>
+    <string name="reason_email_sender_lookalike">The sender\'s address copies %1$s but is not the real one.</string>
+    <string name="reason_email_reply_to">If you reply, your answer goes to a different person than you expect.</string>
+    <string name="reason_email_return_path">This mail was posted from a different place than it claims.</string>
+    <string name="reason_email_auth_fail">The sender could not be proved. This mail is very likely faked.</string>
+    <string name="reason_email_auth_weak">The sender\'s identity could not be fully checked.</string>
+
     <!-- Alert overlay -->
+    <string name="alert_quoted_label">This message:</string>
     <string name="alert_ask_family">Ask family</string>
     <string name="alert_dismiss">Close</string>
     <string name="alert_repeat">Say it again</string>

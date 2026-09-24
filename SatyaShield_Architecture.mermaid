@@ -1,0 +1,38 @@
+flowchart LR
+    subgraph Input["Input Layer"]
+        A1[URL / Website]
+        A2[Email Text]
+        A3[Video or Image]
+        A4[Audio Clip]
+    end
+
+    subgraph Detect["Detection Layer"]
+        B1[Phishing URL Classifier]
+        B2[Phishing Email Classifier]
+        B3[Deepfake Video Detector]
+        B4[Deepfake Audio Detector]
+    end
+
+    subgraph Fuse["Fusion and Explainability Engine"]
+        C1[Weighted Risk Fusion]
+        C2[Explanation Generator]
+    end
+
+    subgraph Out["Output"]
+        D1[Unified Trust Score]
+        D2[Visual Explanation]
+        D3[Plain-language Alert - EN / TA / HI]
+    end
+
+    A1 --> B1 --> C1
+    A2 --> B2 --> C1
+    A3 --> B3 --> C1
+    A4 --> B4 --> C1
+    B1 --> C2
+    B2 --> C2
+    B3 --> C2
+    B4 --> C2
+    C1 --> D1
+    C2 --> D2
+    C1 --> D3
+    C2 --> D3

@@ -234,7 +234,7 @@ class SatyaNotificationListener : NotificationListenerService() {
             context = this,
             verdict = verdict,
             locale = AppPrefs.locale(this),
-            onAskFamily = { AskFamily.send(this, extracted.text, verdict) },
+            onAskFamily = { AskFamily.send(this, verdict) },
         )
     }
 
